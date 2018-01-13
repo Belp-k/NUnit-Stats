@@ -22,7 +22,7 @@ def main(argv: list):
     else:
         all_fixtures = get_all_fixtures(argv[1])
         for fixture in all_fixtures:
-            print(fixture.attrib.get("name"), fixture.attrib.get("duration"))
+            print("Fixture name = {0} - Duration = {1}".format(fixture.attrib.get("name"), fixture.attrib.get("duration")))
 
 if __name__ == "__main__":
    main(sys.argv)
