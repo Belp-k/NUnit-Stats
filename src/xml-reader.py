@@ -5,7 +5,12 @@ import sys
 # arg       : the NUnit report filename
 # return    : the ElementTree list of found test fixtures
 def get_all_fixtures(filename: str) -> list:
-    tree = ET.parse(filename)
+    try:
+        tree = ET.parse(filename)
+    except:
+        print(filename, "is not a valid XML file")
+        sys.exit(1)
+
     root = tree.getroot()
     
     # All 'test-suite' nodes of type 'TestFixture'
