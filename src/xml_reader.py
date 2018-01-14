@@ -12,7 +12,7 @@ def get_all_fixtures(filename: str) -> list:
         sys.exit(1)
 
     root = tree.getroot()
-    
+
     # All 'test-suite' nodes of type 'TestFixture'
     return root.findall(".//test-suite/[@type='TestFixture']")
 
