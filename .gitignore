@@ -100,5 +100,13 @@ ENV/
 # mypy
 .mypy_cache/
 
+#####
+### NUnit-Stats specific ignored files
+#####
+
 # XML sample files
 xml-samples/
+
+# Generated Excel files
+*.xls
+*.xlsx

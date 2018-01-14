@@ -24,3 +24,6 @@ class NUnitTestFixture(object):
         for test in self.tests:
             s += "\n\t+ {0}".format(test)
         return s
+
+    def tests_count(self):
+        return len(self.tests)
