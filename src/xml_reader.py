@@ -1,13 +1,14 @@
 from nunit_test import NUnitTest
 from nunit_test_fixture import NUnitTestFixture
+from nunit_test_assembly import NUnitTestAssembly
 
 import xml.etree.ElementTree as ET
 import sys
 
-# Retrieves all test fixtures from the input XML test results
+# Retrieves all test assemblies from the input XML test results
 # arg       : the NUnit report filename
-# return    : the ElementTree list of found test fixtures
-def get_all_fixtures(filename: str) -> list:
+# return    : the ElementTree list of found test assemblies
+def get_all_assemblies(filename: str) -> list:
     try:
         tree = ET.parse(filename)
     except:
@@ -16,10 +17,17 @@ def get_all_fixtures(filename: str) -> list:
 
     root = tree.getroot()
 
-    # All 'test-suite' nodes of type 'TestFixture'
-    return root.findall(".//test-suite/[@type='TestFixture']")
+    # All 'test-suite' nodes of type 'Assembly'
+    return root.findall(".//test-suite/[@type='Assembly']")
 
-# Retrieves all test cases from the input text fixture as an ElementTree
+# Retrieves all test fixtures from the input test suite as an ElementTree node
+# arg       : the ElementTree note of a test suite
+# return    : the ElementTree list of found test fixtures
+def get_all_fixtures(suite: "A test-suite node of type TestFixture") -> list:
+    # All 'test-suite' nodes of type 'TestFixture'
+    return suite.findall(".//test-suite/[@type='TestFixture']")
+
+# Retrieves all test cases from the input text fixture as an ElementTree node
 # arg       : the ElementTree note of a test fixture
 # return    : the ElementTree list of found test cases
 def get_test_cases(fixture: "A test-suite node of type TestFixture") -> list:
@@ -52,13 +60,26 @@ def build_test_fixtures(test_fixtures: list) -> list:
         nunit_test_fixtures.append(NUnitTestFixture(fixture_name, fixture_order, round(fixture_duration), test_cases))
     return nunit_test_fixtures
 
+# Builds a list of NUnitTestAssembly objects
+# arg       : the ElementTree list of test assemblies
+# return    : the NUnitTestAssembly list
+def build_test_assemblies(test_assemblies: list) -> list:
+    nunit_test_assemblies = []
+    for assembly in test_assemblies:
+        assembly_name = assembly.attrib.get("name")
+        # Durations are expressed in seconds in NUnit test report
+        assembly_duration = float(assembly.attrib.get("duration")) * 1000
+        fixtures = build_test_fixtures(get_all_fixtures(assembly))
+        nunit_test_assemblies.append(NUnitTestAssembly(assembly_name, round(assembly_duration), fixtures))
+    return nunit_test_assemblies
+
 def main(argv: list):
     if len(argv) != 2:
         print(argv[0], 'usage: <xml filename>')
     else:
-        all_fixtures = build_test_fixtures(get_all_fixtures(argv[1]))
-        for fixture in all_fixtures:
-            print(fixture)
+        all_assemblies = build_test_assemblies(get_all_assemblies(argv[1]))
+        for assembly in all_assemblies:
+            print(assembly)
 
 if __name__ == "__main__":
    main(sys.argv)
