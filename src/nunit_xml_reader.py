@@ -22,6 +22,7 @@ class NUnitXmlReader(object):
         return element.attrib.get("name")
 
     def _get_element_duration_in_ms(self, element: "An ElementTree node") -> int:
+        # Durations are expressed in seconds in NUnit test report
         return round(float(element.attrib.get("duration")) * 1000)
 
     # Retrieves all test assemblies from the parsed NUnit test report
@@ -51,7 +52,6 @@ class NUnitXmlReader(object):
         for test in tests:
             test_name = self._get_element_name(test)
             test_order = tests.index(test) + 1
-            # Durations are expressed in seconds in NUnit test report
             test_duration_ms = self._get_element_duration_in_ms(test)
 
             nunit_tests.append(NUnitTest(test_name, test_order, test_duration_ms))
@@ -65,7 +65,6 @@ class NUnitXmlReader(object):
         for fixture in fixtures:
             fixture_name = self._get_element_name(fixture)
             fixture_order = fixtures.index(fixture) + 1
-            # Durations are expressed in seconds in NUnit test report
             fixture_duration = self._get_element_duration_in_ms(fixture)
 
             parsed_tests = self._get_tests(fixture)
@@ -81,7 +80,6 @@ class NUnitXmlReader(object):
         nunit_test_assemblies = []
         for assembly in assemblies:
             assembly_name = self._get_element_name(assembly)
-            # Durations are expressed in seconds in NUnit test report
             assembly_duration = self._get_element_duration_in_ms(assembly)
 
             parsed_fixtures = self._get_fixtures(assembly)
