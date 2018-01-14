@@ -18,6 +18,12 @@ class NUnitXmlReader(object):
 
         self._root = tree.getroot()
 
+    def _get_element_name(self, element: "An ElementTree node") -> str:
+        return element.attrib.get("name")
+
+    def _get_element_duration_in_ms(self, element: "An ElementTree node") -> int:
+        return round(float(element.attrib.get("duration")) * 1000)
+
     # Retrieves all test assemblies from the parsed NUnit test report
     # return    : the ElementTree list of found test assemblies
     def _get_assemblies(self) -> list:
@@ -43,12 +49,12 @@ class NUnitXmlReader(object):
     def _build_nunit_tests(self, tests: list) -> list:
         nunit_tests = []
         for test in tests:
-            test_name = test.attrib.get("name")
+            test_name = self._get_element_name(test)
             test_order = tests.index(test) + 1
             # Durations are expressed in seconds in NUnit test report
-            test_duration_ms = float(test.attrib.get("duration")) * 1000
+            test_duration_ms = self._get_element_duration_in_ms(test)
 
-            nunit_tests.append(NUnitTest(test_name, test_order, round(test_duration_ms)))
+            nunit_tests.append(NUnitTest(test_name, test_order, test_duration_ms))
         return nunit_tests
 
     # Builds a list of NUnitTestFixture objects
@@ -57,15 +63,15 @@ class NUnitXmlReader(object):
     def _build_nunit_test_fixtures(self, fixtures: list) -> list:
         nunit_test_fixtures = []
         for fixture in fixtures:
-            fixture_name = fixture.attrib.get("name")
+            fixture_name = self._get_element_name(fixture)
             fixture_order = fixtures.index(fixture) + 1
             # Durations are expressed in seconds in NUnit test report
-            fixture_duration = float(fixture.attrib.get("duration")) * 1000
+            fixture_duration = self._get_element_duration_in_ms(fixture)
 
             parsed_tests = self._get_tests(fixture)
             test_cases = self._build_nunit_tests(parsed_tests)
 
-            nunit_test_fixtures.append(NUnitTestFixture(fixture_name, fixture_order, round(fixture_duration), test_cases))
+            nunit_test_fixtures.append(NUnitTestFixture(fixture_name, fixture_order, fixture_duration, test_cases))
         return nunit_test_fixtures
 
     # Builds a list of NUnitTestAssembly objects
@@ -74,12 +80,12 @@ class NUnitXmlReader(object):
         assemblies = self._get_assemblies()
         nunit_test_assemblies = []
         for assembly in assemblies:
-            assembly_name = assembly.attrib.get("name")
+            assembly_name = self._get_element_name(assembly)
             # Durations are expressed in seconds in NUnit test report
-            assembly_duration = float(assembly.attrib.get("duration")) * 1000
+            assembly_duration = self._get_element_duration_in_ms(assembly)
 
             parsed_fixtures = self._get_fixtures(assembly)
             fixtures = self._build_nunit_test_fixtures(parsed_fixtures)
 
-            nunit_test_assemblies.append(NUnitTestAssembly(assembly_name, round(assembly_duration), fixtures))
+            nunit_test_assemblies.append(NUnitTestAssembly(assembly_name, assembly_duration, fixtures))
         return nunit_test_assemblies
