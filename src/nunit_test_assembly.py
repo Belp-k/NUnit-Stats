@@ -1,5 +1,3 @@
-from nunit_test_fixture import NUnitTestFixture
-
 class NUnitTestAssembly(object):
     """Representation of a NUnit tests assembly.
 

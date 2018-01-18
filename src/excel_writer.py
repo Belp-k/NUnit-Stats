@@ -1,9 +1,5 @@
-from nunit_test import NUnitTest
-from nunit_test_fixture import NUnitTestFixture
-from nunit_test_assembly import NUnitTestAssembly
-
 import xlwt
-import sys
+
 
 class ExcelWriter(object):
     """Writer of an excel workbook from a list of NUnitTestAssembly.
@@ -27,9 +23,9 @@ class ExcelWriter(object):
                     sheet.write(row_offset + j, 2, test.duration)
                 row_offset += fixture.tests_count()
 
-        try :
+        try:
             workbook.save(name)
-            print(name, " succesfully generated!")
-        except :
+            print(name, " successfully generated!")
+        except:
             print("!! Failed to save workbook", name, "!!")
             raise

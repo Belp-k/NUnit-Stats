@@ -1,5 +1,3 @@
-from nunit_test import NUnitTest
-
 class NUnitTestFixture(object):
     """Representation of a NUnitTest test fixture.
 

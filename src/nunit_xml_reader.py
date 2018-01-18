@@ -5,6 +5,7 @@ from nunit_test_assembly import NUnitTestAssembly
 import xml.etree.ElementTree as ET
 import sys
 
+
 class NUnitXmlReader(object):
     """XML reader to retrieve the list of NUnit test assemblies of a given NUnit report.
     """
