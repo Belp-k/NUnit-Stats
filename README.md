@@ -7,5 +7,13 @@ Developped using
 
 ## Usage
 ```
-python main.py <input nunit xml report filename> <output excel filename>
+> python main.py [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -i REPORT, --input=REPORT
+                        NUnit XML report file name
+  -o FILENAME, --output=FILENAME
+                        Generated Excel file name
+
 ```
