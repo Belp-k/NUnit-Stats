@@ -29,9 +29,20 @@ def main():
     (options, args) = parser.parse_args()
     if check_options(options):
         reader = NUnitXmlReader(options.report)
+        print("[NUnit-Stats]: Parsed NUnit test report '{0}'".format(options.report))
+
         assemblies = reader.build_nunit_test_assemblies()
+        nb_of_assemblies = len(assemblies)
+        separator = "\n\t- "
+        assemblies_names = separator.join([a.name for a in assemblies])
+        print("[NUnit-Stats]: Extracted {0} NUnit test assemblies:{1}{2}".format(nb_of_assemblies,
+                                                                                 separator,
+                                                                                 assemblies_names))
+
         writer = ExcelWriter(assemblies)
         writer.create_workbook(options.filename)
+
+        print("[NUnit-Stats]: Bye")
     else:
         parser.print_help()
         sys.exit(1)

@@ -8,6 +8,9 @@ class ExcelWriter(object):
     def __init__(self, assemblies: list):
         self._assemblies = assemblies
 
+    def __str__(self):
+        return self.__class__.__name__
+
     def create_workbook(self, name: str):
         workbook = xlwt.Workbook()
 
@@ -25,7 +28,7 @@ class ExcelWriter(object):
 
         try:
             workbook.save(name)
-            print(name, " successfully generated!")
+            print("[{0}]: Generated workbook '{1}'".format(self, name))
         except:
-            print("!! Failed to save workbook", name, "!!")
+            print("[{0}]: Failed to save workbook '{1}'!".format(self, name))
             raise
