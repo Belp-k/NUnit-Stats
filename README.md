@@ -7,13 +7,13 @@ Developped using
 
 ## Usage
 ```
-> python main.py [options]
+> python nunit_stats.py [options]
 
 Options:
   -h, --help            show this help message and exit
   -i REPORT, --input=REPORT
                         NUnit XML report file name
   -o FILENAME, --output=FILENAME
-                        Generated Excel file name
+                        Generated Excel file name without extension
 
 ```
