@@ -20,3 +20,6 @@ class NUnitTestAssembly(object):
         for fixtures in self.fixtures:
             s += "\n- {0}".format(fixtures)
         return s
+
+    def fixtures_count(self):
+        return len(self.fixtures)

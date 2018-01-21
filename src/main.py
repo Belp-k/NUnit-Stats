@@ -1,6 +1,7 @@
 from nunit_xml_reader import NUnitXmlReader
 from excel_writer import ExcelWriter
 from generators.assembly_generator import AssemblyGenerator
+from generators.summary_generator import SummaryGenerator
 
 from optparse import OptionParser
 import sys
@@ -40,8 +41,9 @@ def main():
                                                                                  separator,
                                                                                  assemblies_names))
 
-        assembly_generators = [AssemblyGenerator(a) for a in assemblies]
-        writer = ExcelWriter(assembly_generators)
+        generators = [AssemblyGenerator(a) for a in assemblies]
+        generators.insert(0, SummaryGenerator(assemblies))
+        writer = ExcelWriter(generators)
         writer.create_workbook(options.filename)
 
         print("[NUnit-Stats]: Bye")
