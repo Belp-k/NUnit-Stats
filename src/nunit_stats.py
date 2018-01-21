@@ -26,7 +26,7 @@ def main():
     parser.add_option("-o",
                       "--output",
                       dest="filename",
-                      help="Generated Excel file name")
+                      help="Generated Excel file name without extension")
 
     (options, args) = parser.parse_args()
     if check_options(options):
