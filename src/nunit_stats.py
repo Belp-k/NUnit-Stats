@@ -1,7 +1,7 @@
 from nunit_xml_reader import NUnitXmlReader
 from excel_writer import ExcelWriter
-from generators.assembly_generator import AssemblyGenerator
 from generators.summary_generator import SummaryGenerator
+from generators.tests_list_generator import TestsListGenerator
 
 from optparse import OptionParser
 import sys
@@ -46,7 +46,7 @@ def main():
                                                                                  separator,
                                                                                  assemblies_names))
 
-        generators = [AssemblyGenerator(a) for a in assemblies]
+        generators = [TestsListGenerator(a) for a in assemblies]
         generators.insert(0, SummaryGenerator(assemblies))
         writer = ExcelWriter(generators)
         clean_filename(options)

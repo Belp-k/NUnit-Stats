@@ -1,4 +1,4 @@
-class AssemblyGenerator(object):
+class TestsListGenerator(object):
     """Generates a matrix representing the data extracted from a
     NUnit test assembly report.
     Each line is as follows:
