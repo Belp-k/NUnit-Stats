@@ -110,6 +110,7 @@ ENV/
 # XML sample files
 xml-samples/
 
-# Generated Excel files
+# Generated Excel/CSV files
 *.xls
 *.xlsx
+*.csv

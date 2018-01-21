@@ -2,7 +2,7 @@ import xlwt
 
 
 class ExcelWriter(object):
-    """Writer of an excel workbook from a list of NUnitTestAssembly.
+    """Writer of an excel workbook from a list of generators.
     """
 
     def __init__(self, generators: list):
@@ -11,7 +11,7 @@ class ExcelWriter(object):
     def __str__(self):
         return self.__class__.__name__
 
-    def create_workbook(self, name: str):
+    def generate_report(self, name: str):
         workbook = xlwt.Workbook()
         filename = name + ".xls"
 

@@ -15,5 +15,7 @@ Options:
                         NUnit XML report file name
   -o FILENAME, --output=FILENAME
                         Generated Excel file name without extension
+  -l, --light           Activate light report generation (CSV files instead of
+                        Excel workbook)
 
 ```

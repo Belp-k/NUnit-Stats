@@ -1,4 +1,5 @@
 from nunit_xml_reader import NUnitXmlReader
+from csv_writer import CSVWriter
 from excel_writer import ExcelWriter
 from generators.summary_generator import SummaryGenerator
 from generators.tests_list_generator import TestsListGenerator
@@ -32,6 +33,12 @@ def main():
                       "--output",
                       dest="filename",
                       help="Generated Excel file name without extension")
+    parser.add_option("-l",
+                      "--light",
+                      dest="light",
+                      default=False,
+                      action="store_true",
+                      help="Activate light report generation (CSV files instead of Excel workbook)")
 
     (options, args) = parser.parse_args()
     if check_options(options):
@@ -48,9 +55,10 @@ def main():
 
         generators = [TestsListGenerator(a) for a in assemblies]
         generators.insert(0, SummaryGenerator(assemblies))
-        writer = ExcelWriter(generators)
+
+        writer = CSVWriter(generators) if options.light else ExcelWriter(generators)
         clean_filename(options)
-        writer.create_workbook(options.filename)
+        writer.generate_report(options.filename)
 
         print("[NUnit-Stats]: Bye")
     else:
