@@ -11,15 +11,9 @@ class ExcelWriter(object):
     def __str__(self):
         return self.__class__.__name__
 
-    def _clean_name(self, name: str) -> str:
-        if name.lower().endswith((".xls", ".xlsx")):
-            return '.'.join(name.split('.')[:-1])
-        else:
-            return name
-
     def create_workbook(self, name: str):
         workbook = xlwt.Workbook()
-        filename = self._clean_name(name) + ".xls"
+        filename = name + ".xls"
 
         for generator in self._generators:
             # Excel does not support sheet names greater than 31 characters

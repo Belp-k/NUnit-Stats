@@ -16,6 +16,11 @@ def check_options(options: "Parsed options") -> bool:
         return True
 
 
+def clean_filename(options: "Parsed options"):
+    if options.filename.lower().endswith((".xls", ".xlsx", ".csv")):
+        options.filename = '.'.join(options.filename.split('.')[:-1])
+
+
 def main():
     usage = "usage: %prog [options]"
     parser = OptionParser(usage)
@@ -44,6 +49,7 @@ def main():
         generators = [AssemblyGenerator(a) for a in assemblies]
         generators.insert(0, SummaryGenerator(assemblies))
         writer = ExcelWriter(generators)
+        clean_filename(options)
         writer.create_workbook(options.filename)
 
         print("[NUnit-Stats]: Bye")
