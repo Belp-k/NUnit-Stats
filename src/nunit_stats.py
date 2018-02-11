@@ -1,6 +1,7 @@
 from nunit_xml_reader import NUnitXmlReader
 from csv_writer import CSVWriter
 from excel_writer import ExcelWriter
+from generators.ratio_generator import RatioGenerator
 from generators.summary_generator import SummaryGenerator
 from generators.tests_list_generator import TestsListGenerator
 
@@ -51,6 +52,7 @@ def read_assemblies(nunit_report: str) -> list:
 # return    : The list of generators
 def create_generators(assemblies: list) -> list:
     generators = [TestsListGenerator(a) for a in assemblies]
+    generators.extend([RatioGenerator(a) for a in assemblies])
     generators.insert(0, SummaryGenerator(assemblies))
 
     return generators
