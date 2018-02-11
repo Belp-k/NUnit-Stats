@@ -23,3 +23,6 @@ class NUnitTestAssembly(object):
 
     def fixtures_count(self):
         return len(self.fixtures)
+
+    def fixtures_durations(self):
+        return sum([fixture.duration for fixture in self.fixtures])

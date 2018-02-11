@@ -25,3 +25,6 @@ class NUnitTestFixture(object):
 
     def tests_count(self):
         return len(self.tests)
+
+    def tests_durations(self):
+        return sum([test.duration for test in self.tests])
